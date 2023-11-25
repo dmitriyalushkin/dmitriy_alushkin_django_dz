@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from catalog.models import Category
+
 # Create your views here.
 
 
@@ -14,3 +16,10 @@ def contacts(request):
 
 def home(request):
     return render(request, 'main/home.html')
+
+
+def index(request):
+    context = {
+        'object_list': Category.objects.all()
+    }
+    return render(request, 'main/base.html', context)
