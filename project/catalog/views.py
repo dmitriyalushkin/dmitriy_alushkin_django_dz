@@ -40,4 +40,4 @@ def product_detail(request, pk):
         'object_list': Product.objects.filter(category_id=pk),
         'title': f'Категории продуктов - {category_item.name}'
     }
-    return render(request, 'main/product_name.html', context)
+    return render(request, 'main/product-detail.html', context)
