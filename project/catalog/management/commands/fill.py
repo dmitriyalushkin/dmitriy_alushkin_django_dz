@@ -1,7 +1,6 @@
-from django.core.management import BaseCommand
+from django.core.management import BaseCommand, call_command
 
-
-from catalog.models import Product, Category
+from django.db import ProgrammingError, IntegrityError
 
 
 class Command(BaseCommand):
