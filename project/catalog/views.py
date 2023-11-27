@@ -35,4 +35,4 @@ def product_detail(request, pk):
     context = {
         'title': product
     }
-    return render(request, template_name='product-detail.html', context=context)
+    return render(request, 'main/product-detail.html', context)
