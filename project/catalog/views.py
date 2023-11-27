@@ -34,7 +34,7 @@ def categories(request):
     return render(request, 'main/categories.html', context)
 
 
-def categories_product(request, pk):
+def product_detail(request, pk):
     category_item = Category.objects.get(pk=pk)
     context = {
         'object_list': Product.objects.filter(category_id=pk),

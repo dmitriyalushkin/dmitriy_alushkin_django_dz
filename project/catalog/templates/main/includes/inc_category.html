@@ -4,7 +4,7 @@
             <p class="card-text">{{ object.name }}</p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <a href="{% url 'categories_product' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">К продуктам</a>
+                    <a href="{% url 'catalog:product-detail' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">К продуктам</a>
                 </div>
             </div>
         </div>
