@@ -1,22 +1,14 @@
-from django.core.management import BaseCommand, call_command
+from django.core.management import BaseCommand
 
-from django.db import ProgrammingError, IntegrityError
+from django.conf import settings
 
 
 class Command(BaseCommand):
     requires_migrations_checks = True
 
     def handle(self, *args, **options) -> None:
-        fixtures_path = 'project/catalog_data.json'  # Тут укажи путь до фикстур
-        try:
-            call_command('loaddata', fixtures_path)
-        except ProgrammingError:
-            pass
-        except IntegrityError as e:
-            self.stdout.write(f'Invalid fixtures: {e}', self.style.NOTICE)
-        else:
-            self.stdout.write(
-                'Command  have been completed successfully',
-                self.style.SUCCESS
-            )
+        fixtures_path = settings.BASE_DIR.joinpath('catalog_data.json')
+        if not fixtures_path.exists():
+            self.stdout.write('Fixtures not found', self.style.NOTICE)
+            return
 
