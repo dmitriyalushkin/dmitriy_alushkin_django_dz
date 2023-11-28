@@ -30,9 +30,12 @@ def categories(request):
     return render(request, 'main/categories.html', context)
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+def product_detail(request, category_id):
+    category = Category.objects.get(id=category_id)
+    product_list = Product.objects.filter(categories_id=category)
+
     context = {
-        'title': product
+        'object_list': product_list,
+        'category': category
     }
     return render(request, 'main/product-detail.html', context)

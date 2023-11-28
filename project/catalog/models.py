@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.db import connection
+
 # Create your models here.
 NULLABLE = {'blank': True, 'null': True}
 
@@ -32,5 +34,6 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
 
 
