@@ -30,12 +30,12 @@ def categories(request):
     return render(request, 'main/categories.html', context)
 
 
-def product_detail(request, category_id):
-    category = Category.objects.get(id=category_id)
-    product_list = Product.objects.filter(categories_id=category)
+def product_detail(request, pk):
+    category = Category.objects.get(pk=pk)
+    product_list = Product.objects.filter(category_id=pk)
 
     context = {
         'object_list': product_list,
-        'category': category
+        'title': category
     }
     return render(request, 'main/product-detail.html', context)
