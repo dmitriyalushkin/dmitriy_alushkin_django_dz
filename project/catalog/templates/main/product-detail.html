@@ -14,10 +14,19 @@
                     </svg>
 
                     <div class="card-body">
-                        <p class="card-text">{{ object.name }}</p>
+                        <p class="card-text">Наименование: {{ object.name }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">К продуктам</button>
+                                <p class="card-text">Описание: {{ object.description }}
+                            </div>
+                            <div class="btn-group">
+                                <p class="card-text">Цена за покупку: {{ object.price }}
+                            </div>
+                            <div class="btn-group">
+                                <p class="card-text">Дата создания: {{ object.date_of_creation }}
+                            </div>
+                            <div class="btn-group">
+                                <p class="card-text">Дата последнего изменения: {{ object.last_modified_date }}
                             </div>
                         </div>
                     </div>
