@@ -17,7 +17,7 @@ urlpatterns = [
     # path('category_list/', CategoryListView.as_view(), name='categories-list'),
     # path('product/<int:pk>/', ProductListView.as_view(), name='product-detail'),
     path('view/<int:pk>/', BlogEntryDetailView.as_view(), name='blog-entry-detail'),
-    path('', BlogEntryListView.as_view(), name='blog-entry-list'),
+    path('list/<int:pk>/', BlogEntryListView.as_view(), name='blog-entry-list'),
     path('create/', BlogEntryCreateView.as_view(), name='blog-entry-create'),
     path('edit/<int:pk>/', BlogEntryUpdateView.as_view(), name='blog-entry-edit')
 ]

@@ -45,6 +45,15 @@ def product_detail(request, pk):
     }
     return render(request, 'main/product-detail.html', context)
 
+# def product_detail(request, pk):
+#     product = Product.objects.get(pk=pk)
+#
+#     context = {
+#         'object_list': product,
+#         'title': product.category
+#     }
+#     return render(request, 'main/product-detail.html', context)
+
 
 # class CategoryListView(ListView):
 #     model = Category
