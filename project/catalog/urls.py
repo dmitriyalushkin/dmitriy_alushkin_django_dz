@@ -2,7 +2,8 @@ from django.urls import path
 
 from catalog.views import contacts, index, product_detail, categories
 
-# from catalog.views import CategoryListView, ProductListView, BlogEntryDetailView
+# from catalog.views import CategoryListView, ProductListView
+from catalog.views import BlogEntryDetailView, BlogEntryListView, BlogEntryCreateView, BlogEntryUpdateView
 
 from catalog.apps import CatalogConfig
 
@@ -15,5 +16,8 @@ urlpatterns = [
     path('product/<int:pk>/', product_detail, name='product-detail'),
     # path('category_list/', CategoryListView.as_view(), name='categories-list'),
     # path('product/<int:pk>/', ProductListView.as_view(), name='product-detail'),
-    # path('view/<int:pk>/', BlogEntryDetailView.as_view(), name='blog-entry-detail')
+    path('view/<int:pk>/', BlogEntryDetailView.as_view(), name='blog-entry-detail'),
+    path('', BlogEntryListView.as_view(), name='blog-entry-list'),
+    path('create/', BlogEntryCreateView.as_view(), name='blog-entry-create'),
+    path('edit/<int:pk>/', BlogEntryUpdateView.as_view(), name='blog-entry-edit')
 ]
