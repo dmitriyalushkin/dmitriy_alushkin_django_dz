@@ -2,7 +2,7 @@
 {% load my_tags %}
 {% block content %}
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        {% for object in object_list %}
+
             <div class="col">
                 <div class="card shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
@@ -17,7 +17,7 @@
                         <p class="card-text">Наименование: {{ object.name }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <p class="card-text">Описание: {{ object.description }}
+                                <p class="card-text">Описание: {{ object.description|truncatechars:100 }}
                             </div>
                             <div class="btn-group">
                                 <p class="card-text">Цена за покупку: {{ object.price }}
@@ -32,6 +32,6 @@
                     </div>
                 </div>
             </div>
-        {% endfor %}
+
         </div>
 {% endblock %}
