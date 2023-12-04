@@ -123,6 +123,7 @@ class BlogEntryUpdateView(UpdateView):
 
 
     def get_success_url(self):
+
         return reverse('main:view', args=[self.kwargs.get('pk')])
 
 
