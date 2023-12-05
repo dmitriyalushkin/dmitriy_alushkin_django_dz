@@ -48,7 +48,7 @@ class BlogEntry(models.Model):
     sign_of_publication = models.BooleanField(default=True,
                                               verbose_name='признак публикации',
                                               **NULLABLE)
-    number_of_views = models.IntegerField(verbose_name='количество просмотров', **NULLABLE)
+    number_of_views = models.IntegerField(default=0, verbose_name='количество просмотров', **NULLABLE)
 
 
     def __str__(self):

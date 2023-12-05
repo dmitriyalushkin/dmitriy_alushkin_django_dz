@@ -86,6 +86,7 @@ class BlogEntryDetailView(DetailView):
 
 class BlogEntryListView(ListView):
     model = BlogEntry
+    template_name = 'main/blogentry_list.html'
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
