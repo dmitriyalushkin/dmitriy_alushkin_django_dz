@@ -11,39 +11,39 @@ from pytils.translit import slugify
 # Create your views here.
 
 
-def contacts(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        print(f'{name} ({phone}):{message}')
-    return render(request, 'main/contacts.html')
-
-
+# def contacts(request):
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         phone = request.POST.get('phone')
+#         message = request.POST.get('message')
+#         print(f'{name} ({phone}):{message}')
+#     return render(request, 'main/contacts.html')
+#
+#
 def index(request):
     context = {
         'object_list': Product.objects.all(),
         'title': 'Продукты - Главная'
     }
     return render(request, 'main/index.html', context)
-
-
-def categories(request):
-    context = {
-        'object_list': Category.objects.all(),
-        'title': 'Продукты'
-    }
-    return render(request, 'main/category_list.html', context)
-
-
-def product_detail(request, pk):
-    product = Product.objects.get(pk=pk)
-
-    context = {
-        'object': product,
-        'title': product.name
-    }
-    return render(request, 'main/product-detail.html', context)
+#
+#
+# def categories(request):
+#     context = {
+#         'object_list': Category.objects.all(),
+#         'title': 'Продукты'
+#     }
+#     return render(request, 'main/category_list.html', context)
+#
+#
+# def product_detail(request, pk):
+#     product = Product.objects.get(pk=pk)
+#
+#     context = {
+#         'object': product,
+#         'title': product.name
+#     }
+#     return render(request, 'main/product-detail.html', context)
 
 # def product_detail(request, pk):
 #     product = get_object_or_404(Product, pk=pk)
@@ -78,10 +78,10 @@ class BlogEntryDetailView(DetailView):
     model = BlogEntry
 
     def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        self.object.views_count += 1
-        self.object.save()
-        return self.object
+        object = super().get_object(queryset)
+        object.number_of_views += 1
+        object.save()
+        return object
 
 
 class BlogEntryListView(ListView):
@@ -95,8 +95,8 @@ class BlogEntryListView(ListView):
 
 class BlogEntryCreateView(CreateView):
     model = BlogEntry
-    fields = ('header', 'content',)
-    success_url = reverse_lazy('main:blog-entry-list')
+    fields = ['header', 'content']
+    success_url = reverse_lazy('catalog:blog-entry-list')
     template_name = 'main/blogentry_form.html'
 
     def form_valid(self, form):
@@ -110,7 +110,7 @@ class BlogEntryCreateView(CreateView):
 
 class BlogEntryUpdateView(UpdateView):
     model = BlogEntry
-    fields = ('header', 'content',)
+    fields = ['header', 'content']
     # success_url = reverse_lazy('main:blog-entry-list')
 
     def form_valid(self, form):
@@ -124,7 +124,7 @@ class BlogEntryUpdateView(UpdateView):
 
     def get_success_url(self):
 
-        return reverse('main:view', args=[self.kwargs.get('pk')])
+        return reverse('catalog:view', args=[self.kwargs.get('pk')])
 
 
 
