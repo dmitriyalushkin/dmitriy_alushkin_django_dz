@@ -76,6 +76,7 @@ class ProductListView(ListView):
 
 class BlogEntryDetailView(DetailView):
     model = BlogEntry
+    template_name = 'main/blogentry_detail.html'
 
     def get_object(self, queryset=None):
         object = super().get_object(queryset)
@@ -112,6 +113,7 @@ class BlogEntryCreateView(CreateView):
 class BlogEntryUpdateView(UpdateView):
     model = BlogEntry
     fields = ['header', 'content']
+    template_name = 'main/blogentry_form.html'
     # success_url = reverse_lazy('main:blog-entry-list')
 
     def form_valid(self, form):
