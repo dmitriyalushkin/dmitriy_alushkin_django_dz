@@ -97,6 +97,8 @@ class ProductCreateView(CreateView):
         context_data = self.get_context_data()
         formset = context_data['formset']
         self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
 
         if formset.is_valid():
             formset.instance = self.object

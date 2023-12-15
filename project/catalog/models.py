@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 # Create your models here.
@@ -27,6 +28,7 @@ class Product(models.Model):
     date_of_creation = models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name='дата создания', **NULLABLE)
     last_modified_date = models.DateTimeField(auto_now=False, auto_now_add=False, verbose_name='дата последнего изменения', **NULLABLE)
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, verbose_name='user', **NULLABLE)
 
     def __str__(self):
         return f'{self.name}'
