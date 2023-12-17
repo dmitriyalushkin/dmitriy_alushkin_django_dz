@@ -67,7 +67,7 @@ class Version(models.Model):
     name = models.CharField(max_length=150, verbose_name='Название версии')
     number = models.FloatField(verbose_name='Номер версии', **NULLABLE)
 
-    is_active = models.BooleanField(default=True, verbose_name='Активна', **NULLABLE)
+    is_active = models.BooleanField(default=True, verbose_name='Активна')
 
     def __str__(self):
         return self.name
