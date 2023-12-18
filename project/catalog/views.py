@@ -61,6 +61,7 @@ def index(request):
 
 class CategoryListView(ListView):
     model = Category
+    template_name = 'main/category_list.html'
     extra_context = {
         'title': 'Продукты'
     }
