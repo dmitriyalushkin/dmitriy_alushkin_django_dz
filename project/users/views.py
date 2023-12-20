@@ -7,6 +7,7 @@ from django.urls import reverse_lazy, reverse
 from django.core.mail import send_mail
 from django.conf import settings
 from users.forms import UserRegisterForm, UserForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 import random
 
 # Create your views here.
@@ -38,7 +39,7 @@ class RegisterView(CreateView):
         return super().form_valid(form)
 
 
-class UserUpdate(UpdateView):
+class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     success_url = reverse_lazy('users:profile')
     form_class = UserForm

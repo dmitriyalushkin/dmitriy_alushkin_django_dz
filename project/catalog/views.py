@@ -1,22 +1,18 @@
 from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404
-
 from catalog.models import Category, Product, BlogEntry, Version
-
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-
 from django.urls import reverse_lazy, reverse
-
 from pytils.translit import slugify
-
 from catalog.forms import ProductForm, VersionForm
-
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 
-
+@login_required
 def contacts(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -26,6 +22,7 @@ def contacts(request):
     return render(request, 'main/contacts.html')
 
 
+@login_required
 def index(request):
     context = {
         'object_list': Product.objects.all(),
@@ -34,7 +31,7 @@ def index(request):
     return render(request, 'main/index.html', context)
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'main/category_list.html'
     extra_context = {
@@ -42,8 +39,9 @@ class CategoryListView(ListView):
     }
 
 
-class ProductListView(ListView):
+class ProductListView(LoginRequiredMixin, ListView):
     model = Product
+    template_name = 'main/product-detail.html'
 
 
     def get_context_data(self, *args, **kwargs):
@@ -54,7 +52,7 @@ class ProductListView(ListView):
         return context_data
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
@@ -83,10 +81,11 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
+    permission_required = 'catalog.change_product'
     template_name = 'main/product_form.html'
 
     def get_context_data(self, **kwargs):
@@ -115,8 +114,23 @@ class ProductUpdateView(UpdateView):
             raise Http404("Вы не являетесь владельцем этого товара")
         return self.object
 
+    def test_func(self):
+        _user = self.request.user
+        _instance: Product = self.get_object()
+        custom_perms: tuple = (
+            'catalog_app.set_publication',
+            'catalog_app.set_category',
+            'catalog_app.set_description',
+        )
 
-class BlogEntryDetailView(DetailView):
+        if _user == _instance.user:
+            return True
+        elif _user.groups.filter(name='moder') and _user.has_perms(custom_perms):
+            return True
+        return self.handle_no_permission()
+
+
+class BlogEntryDetailView(LoginRequiredMixin, DetailView):
     model = BlogEntry
     template_name = 'main/blogentry_detail.html'
 
@@ -127,7 +141,7 @@ class BlogEntryDetailView(DetailView):
         return object
 
 
-class BlogEntryListView(ListView):
+class BlogEntryListView(LoginRequiredMixin, ListView):
     model = BlogEntry
     template_name = 'main/blogentry_list.html'
 
@@ -137,7 +151,7 @@ class BlogEntryListView(ListView):
         return queryset
 
 
-class BlogEntryCreateView(CreateView):
+class BlogEntryCreateView(LoginRequiredMixin, CreateView):
     model = BlogEntry
     fields = ['header', 'content']
     success_url = reverse_lazy('catalog:blog-entry-list')
@@ -152,7 +166,7 @@ class BlogEntryCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BlogEntryUpdateView(UpdateView):
+class BlogEntryUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogEntry
     fields = ['header', 'content']
     template_name = 'main/blogentry_form.html'
