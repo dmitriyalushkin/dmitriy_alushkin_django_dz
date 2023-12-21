@@ -33,8 +33,15 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-
     class Meta:
+        permissions = [
+            (
+                'set_publication',
+                'set_category',
+                'set_description',
+                'Can publish products'
+            )
+        ]
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
 
