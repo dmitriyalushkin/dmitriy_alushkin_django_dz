@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404
 from catalog.models import Category, Product, BlogEntry, Version
@@ -34,14 +36,24 @@ def index(request):
 class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     template_name = 'main/category_list.html'
-    extra_context = {
-        'title': 'Продукты'
-    }
+
 
 
 class ProductListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'main/product-detail.html'
+
+    def get_queryset(self):
+        if settings.CACHE_ENABLED:
+            key = 'category_list'
+            category_list = cache.get(key)
+            if category_list is None:
+                category_list = Category.objects.all()
+                cache.set(key, category_list)
+        else:
+            category_list = Category.objects.all()
+
+        return category_list
 
 
     def get_context_data(self, *args, **kwargs):
